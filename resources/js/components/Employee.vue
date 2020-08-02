@@ -1,0 +1,104 @@
+<template>
+    <div class="columns">
+        <div class="column"></div>
+        <div class="column">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Puesto</th>
+                    <th>Direccion</th>
+                    <th>Fecha de nacimiento</th>
+
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr v-for="row in events">
+                    <td>{{row.name}}</td>
+                    <td>{{row.email}}</td>
+                    <td>{{row.position}}</td>
+                    <td>{{row.address}}</td>
+                    <td>{{row.birthday}}</td>
+                    <td><button class="button is-info" @click="edit(row.id)"><i class="fa fa-pencil-square-o"></i></button></td>
+                    <td><button class="button is-danger" @click="deleteUser(row.id)"><i class="fa fa-trash" ></i></button></td>
+
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="column">
+
+
+        </div>
+
+    </div>
+</template>
+
+<script>
+
+
+
+    export default  {
+        data(){
+            return {
+                events: [],
+
+            }
+
+        },
+        mounted () {
+
+            this.getEmployees();
+        },
+        methods:{
+            getEmployees()
+            {
+
+                let url = '/employees/';
+                this.axios.get(url)
+                    .then(res => {
+
+                    this.events = []
+                for (var i = res.data.length - 1; i >= 0; i--) {
+                    let employee = {}
+                    let data = res.data[i]
+                    employee.id = data.id
+                    employee.name = data.name
+                    employee.email = data.email
+                    employee.position = data.position
+                    employee.address = data.address
+                    employee.birthday = data.birthday
+                    this.events.push(employee)
+                }
+
+
+
+
+            })
+            },
+            deleteEmployee(movie_id){
+                console.log(movie_id);
+                let res = confirm("Are you sure to delete the movie?")
+                if (res) {
+                    this.axios.delete('/employee/'+employee_id).then(response => {
+                        this.getMovies();
+                })
+                } else {
+                    console.log("didnt delete")
+                }
+            },
+            edit(movie_id){
+                window.location.href = "employee/" + employee_id;
+            }
+        }
+
+    }
+</script>
+
+<style scoped>
+
+</style>
