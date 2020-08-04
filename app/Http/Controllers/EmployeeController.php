@@ -42,4 +42,15 @@ class EmployeeController extends Controller
 
 
     }
+    public function editEmployee($id){
+        return view('content.editemployee',['employee_id' => $id]);
+    }
+
+    public function getEmployee($employee_id){
+
+       # return Movie::with('actors')->find($movie_id);
+
+        return Employee::with('skills')->find($employee_id);
+
+    }
 }

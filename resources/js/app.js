@@ -29,6 +29,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('employee', require('./components/Employee.vue').default);
 Vue.component('skills', require('./components/Skills.vue').default)
 Vue.component('newemployee', require('./components/NewEmployee.vue').default);
+Vue.component('editemployee', require('./components/EditEmployee.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

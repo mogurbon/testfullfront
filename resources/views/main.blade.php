@@ -16,7 +16,7 @@
 
         <nav class="navbar" role="navigation" aria-label="dropdown navigation">
             <div class="navbar-brand">
-                <a class="navbar-item" href="http://127.0.0.1:8000/">
+                <a class="navbar-item" href="">
                     <img src="https://nulldata.com/img/nulldata.svg"  width="112" height="28">
                 </a>
                 <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">

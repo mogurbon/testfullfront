@@ -10,7 +10,8 @@
                     <th>Puesto</th>
                     <th>Direccion</th>
                     <th>Fecha de nacimiento</th>
-
+                    <th></th>
+                    <th></th>
                 </tr>
                 </thead>
 
@@ -80,19 +81,19 @@
 
             })
             },
-            deleteEmployee(movie_id){
-                console.log(movie_id);
-                let res = confirm("Are you sure to delete the movie?")
+            deleteEmployee(employee_id){
+                //console.log(employee_id);
+                let res = confirm("Seguro de borrar el empleado?")
                 if (res) {
                     this.axios.delete('/employee/'+employee_id).then(response => {
-                        this.getMovies();
+                        this.getEmployees();
                 })
                 } else {
                     console.log("didnt delete")
                 }
             },
-            edit(movie_id){
-                window.location.href = "employee/" + employee_id;
+            edit(employee_id){
+                window.location.href = "employees/" + employee_id;
             }
         }
 

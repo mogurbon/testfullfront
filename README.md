@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-## Prueba de Inreso a Null Data
+## Prueba de Ingreso a Null Data
 composer install
 
 npm install
