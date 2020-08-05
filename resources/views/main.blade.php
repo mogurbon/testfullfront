@@ -42,15 +42,15 @@
                         </div>
                     </div>
                     <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link" href="{{url("/actors")}}">
+                        <a class="navbar-link" href="{{url("/skills")}}">
                             Skills
                         </a>
 
                         <div class="navbar-dropdown">
-                            <a class="navbar-item" href="{{url("/skills")}}">
+                            <a class="navbar-item" href="{{url("/newskill")}}">
                                 Nuevo
                             </a>
-                            <a class="navbar-item" href="{{url("/newactor")}}">
+                            <a class="navbar-item" href="{{url("/skills")}}">
                                 Consultar
                             </a>
 

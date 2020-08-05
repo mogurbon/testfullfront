@@ -20,6 +20,11 @@ Route::get('/employee/{id}', 'EmployeeController@getEmployee');
 
 
 Route::get('/skills', 'SkillController@index');
+
+Route::get('/listskills', 'SkillController@getSkills');
+Route::get('/newskill', 'SkillController@newSkill');
+Route::post('/skill', 'SkillController@store');
+
 /*Route::get('/welcome', function () {
     return view('welcome');
 });*/

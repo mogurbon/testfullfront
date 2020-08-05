@@ -13,7 +13,7 @@
 
                 <tbody>
                 <tr v-for="row in events">
-                    <td>{{row.name}}</td>
+                    <td>{{row.skill}}</td>
 
                     <td><button class="button is-info" @click="edit(row.id)"><i class="fa fa-pencil-square-o"></i></button></td>
                     <td><button class="button is-danger" @click="deleteActor(row.id)"><i class="fa fa-trash" ></i></button></td>
@@ -45,10 +45,41 @@
 
         },
         mounted () {
-            this.$refs.getEmployees();
-            consol.log(events);
+            this.getSkills()
         },
         methods:{
+
+            getSkills()
+            {
+
+                let url = '/listskills/';
+                this.axios.get(url)
+                    .then(res => {
+
+                        this.events = []
+                        for (var i = res.data.length - 1; i >= 0; i--) {
+                            let skill = {}
+                            let data = res.data[i]
+                            skill.id = data.id
+                            skill.skill = data.skill
+                            this.events.push(skill)
+                        }
+                    })
+            },
+            deleteSkill(skill_id){
+
+                let res = confirm("Are you sure to delete actor?")
+                if (res) {
+                    this.axios.delete('/skill/'+skill_id).then(response => {
+                        this.getSkills();
+                    })
+                } else {
+                    console.log("didnt delete")
+                }
+            },
+            edit(actor_id){
+                window.location.href = "skills/" + actor_id;
+            }
 
         }
 
