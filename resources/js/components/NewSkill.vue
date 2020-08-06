@@ -53,7 +53,7 @@
             save () {
                 return this.axios.post('/skill', this.skill).then(response => {
 
-                  //  window.location.href = "/skills";
+                    window.location.href = "/skills";
                 })
             },
 

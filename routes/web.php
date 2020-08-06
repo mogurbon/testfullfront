@@ -24,6 +24,8 @@ Route::get('/skills', 'SkillController@index');
 Route::get('/listskills', 'SkillController@getSkills');
 Route::get('/newskill', 'SkillController@newSkill');
 Route::post('/skill', 'SkillController@store');
+Route::get('/skills/{id}', 'SkillController@editSkill');
+Route::get('/skill/{id}', 'SkillController@getSkill');
 
 /*Route::get('/welcome', function () {
     return view('welcome');

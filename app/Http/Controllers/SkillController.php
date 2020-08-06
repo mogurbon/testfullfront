@@ -32,4 +32,11 @@ class SkillController extends Controller
     public function newSkill(){
         return view('content.newskill');
     }
+
+    public function editSkill($id){
+        return view('content.editskill',['skill_id' => $id]);
+    }
+    public function getSkill($skill_id){
+        return Skill::find($skill_id);
+    }
 }

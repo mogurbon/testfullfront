@@ -31,6 +31,7 @@ Vue.component('skills', require('./components/Skills.vue').default)
 Vue.component('newemployee', require('./components/NewEmployee.vue').default);
 Vue.component('editemployee', require('./components/EditEmployee.vue').default);
 Vue.component('newskill', require('./components/NewSkill.vue').default);
+Vue.component('editskill', require('./components/EditSkill.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

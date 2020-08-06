@@ -104,7 +104,7 @@
             save () {
                 return this.axios.post('/employee', this.employee).then(response => {
 
-                   // window.location.href = "/";
+                    window.location.href = "/";
                 })
             },
 
