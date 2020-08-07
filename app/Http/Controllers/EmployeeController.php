@@ -42,13 +42,44 @@ class EmployeeController extends Controller
 
 
     }
+
+    public function updateEmployee(Request $request, $employee_id){
+
+        try{
+            DB::beginTransaction();
+            $employee = Employee::find($employee_id);
+            $employee->name =  $request->input('name');
+            $employee->email = $request->input('email');
+            $employee->position = $request->input('position');
+            $employee->address = $request->input('address');
+            $employee->coordinates = $request->input('coordinates');
+            $employee->birthday = $request->input('birthday');
+
+            $skills = $request->input('skills');
+
+            if (isset($skills) and count($skills) > 0){
+                $employee->skills()->detach();
+                $employee->skills()->attach($skills);
+            }
+            $employee->save();
+            DB::commit();
+            $response = ['object' => null, 'error' => false, 'message' => 'Movie Updated'];
+        }catch (\Exception $e){
+            DB::rollback();
+            $response = ['object' => null, 'error' => true, 'message' => $e->getMessage()];
+        }
+
+        return $response;
+    }
+
+
     public function editEmployee($id){
         return view('content.editemployee',['employee_id' => $id]);
     }
 
     public function getEmployee($employee_id){
 
-       # return Movie::with('actors')->find($movie_id);
+
 
         return Employee::with('skills')->find($employee_id);
 

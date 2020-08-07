@@ -16,7 +16,7 @@
                     <td>{{row.skill}}</td>
 
                     <td><button class="button is-info" @click="edit(row.id)"><i class="fa fa-pencil-square-o"></i></button></td>
-                    <td><button class="button is-danger" @click="deleteActor(row.id)"><i class="fa fa-trash" ></i></button></td>
+                    <td><button class="button is-danger" @click="deleteSkill(row.id)"><i class="fa fa-trash" ></i></button></td>
 
 
                 </tr>
@@ -68,7 +68,7 @@
             },
             deleteSkill(skill_id){
 
-                let res = confirm("Are you sure to delete actor?")
+                let res = confirm("Are you sure to delete skill?")
                 if (res) {
                     this.axios.delete('/skill/'+skill_id).then(response => {
                         this.getSkills();

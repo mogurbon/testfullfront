@@ -1910,12 +1910,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       events: [],
       list_skills: [],
-      movie_actors: [],
+      employee_skills: [],
       coordinates: '',
       employee: {
         name: '',
@@ -1923,7 +1924,8 @@ __webpack_require__.r(__webpack_exports__);
         position: '',
         address: '',
         birthday: '',
-        coordinates: ''
+        coordinates: '',
+        skills: []
       },
       disabledButton: false
     };
@@ -1935,49 +1937,46 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    // this.getGenres();
-    this.getEmployee(); // this.getActors()
-    //var MarkerTecho = new window.google.maps.Marker({ map: mapObject, position: userLatLng, title: "Mi Techo!", icon: require("@/assets/img/icons/solar-icon.png") });
+    var _this = this;
+
+    this.getEmployee();
+    this.getSkills();
+    this.autocomplete = new google.maps.places.Autocomplete(this.$refs.googleAutocomplete, {
+      types: ['geocode']
+    });
+    this.autocomplete.addListener('place_changed', function () {
+      var place = _this.autocomplete.getPlace();
+
+      var ac = place.address_components;
+      var lat = place.geometry.location.lat();
+      var lon = place.geometry.location.lng();
+      var address = "".concat(ac[1]["short_name"], " ").concat(ac[0]["short_name"], " ").concat(ac[2]["short_name"], " ").concat(ac[3]["short_name"]); //  console.log(ac);
+
+      me.employee.coordinates = "".concat(lat, ", ").concat(lon);
+      me.employee.address = address;
+    });
   },
   methods: {
-    getGenres: function getGenres() {
-      var _this = this;
-
-      var url = '/genres/';
-      this.axios.get(url).then(function (res) {
-        _this.events = [];
-
-        for (var i = res.data.length - 1; i >= 0; i--) {
-          var genre = {};
-          var data = res.data[i];
-          genre.id = data.id;
-          genre.name = data.name;
-
-          _this.events.push(genre);
-        }
-      });
-    },
     getSkills: function getSkills() {
       var _this2 = this;
 
-      var url = '/skills/';
+      var url = '/listskills/';
       this.axios.get(url).then(function (res) {
         _this2.list_skills = [];
 
         for (var i = res.data.length - 1; i >= 0; i--) {
-          var actor = {};
+          var skill = {};
           var data = res.data[i];
-          actor.id = data.id;
-          actor.name = data.name;
+          skill.id = data.id;
+          skill.skill = data.skill;
 
-          _this2.list_skills.push(actor);
+          _this2.list_skills.push(skill);
         }
       });
     },
     save: function save() {
-      this.movie.actors = this.movie_actors;
-      return this.axios.put('/movie/' + this.movie_id, this.movie).then(function (response) {
-        window.location.href = "/";
+      this.employee.skills = this.employee_skills;
+      return this.axios.put('/employee/' + this.employee_id, this.employee).then(function (response) {//  window.location.href = "/";
       });
     },
     getEmployee: function getEmployee() {
@@ -1995,13 +1994,13 @@ __webpack_require__.r(__webpack_exports__);
         _this3.employee.coordinates = val.coordinates; // console.log( this.coordinates )
         //console.log(this.employee.coordinates)
 
-        /* for (var propiedad in val.actors) {
-             if (val.actors.hasOwnProperty(propiedad)) {
-                 actor_ids.push(val.actors[propiedad].id);
-             }
-         }
-         this.movie_actors = actor_ids;*/
+        for (var propiedad in val.skills) {
+          if (val.skills.hasOwnProperty(propiedad)) {
+            skills_ids.push(val.skills[propiedad].id);
+          }
+        }
 
+        _this3.employee_skills = skills_ids;
         var lat = '19.3665953';
         var lon = '-99.1832562';
         console.log(_this3.employee.coordinates);
@@ -2106,7 +2105,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     save: function save() {
-      return this.axios.put('/skill/' + this.actor_id, this.actor).then(function (response) {
+      return this.axios.put('/skill/' + this.skill_id, this.skills).then(function (response) {
         window.location.href = "/skills";
       });
     },
@@ -2354,7 +2353,6 @@ __webpack_require__.r(__webpack_exports__);
 
       me.employee.coordinates = "".concat(lat, ", ").concat(lon);
       me.employee.address = address;
-      console.log(me.employee.address);
     });
   },
   methods: {
@@ -2505,7 +2503,7 @@ __webpack_require__.r(__webpack_exports__);
     deleteSkill: function deleteSkill(skill_id) {
       var _this2 = this;
 
-      var res = confirm("Are you sure to delete actor?");
+      var res = confirm("Are you sure to delete skill?");
 
       if (res) {
         this.axios["delete"]('/skill/' + skill_id).then(function (response) {
@@ -22322,8 +22320,11 @@ var render = function() {
                 expression: "employee.address"
               }
             ],
-            staticClass: "input",
-            attrs: { type: "text", placeholder: "Text input" },
+            ref: "googleAutocomplete",
+            attrs: {
+              type: "text",
+              placeholder: "Ingresa el nombre de tu calle y número.."
+            },
             domProps: { value: _vm.employee.address },
             on: {
               input: function($event) {
@@ -22385,9 +22386,9 @@ var render = function() {
         _vm._v(" "),
         _c(
           "tbody",
-          _vm._l(_vm.list_actors, function(row) {
+          _vm._l(_vm.list_skills, function(row) {
             return _c("tr", [
-              _c("td", [_vm._v(_vm._s(row.name))]),
+              _c("td", [_vm._v(_vm._s(row.skill))]),
               _vm._v(" "),
               _c("td", [
                 _c("input", {
@@ -22395,35 +22396,35 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.movie_actors,
-                      expression: "movie_actors"
+                      value: _vm.employee_skills,
+                      expression: "employee_skills"
                     }
                   ],
                   attrs: { type: "checkbox" },
                   domProps: {
                     value: row.id,
-                    checked: Array.isArray(_vm.movie_actors)
-                      ? _vm._i(_vm.movie_actors, row.id) > -1
-                      : _vm.movie_actors
+                    checked: Array.isArray(_vm.employee_skills)
+                      ? _vm._i(_vm.employee_skills, row.id) > -1
+                      : _vm.employee_skills
                   },
                   on: {
                     change: function($event) {
-                      var $$a = _vm.movie_actors,
+                      var $$a = _vm.employee_skills,
                         $$el = $event.target,
                         $$c = $$el.checked ? true : false
                       if (Array.isArray($$a)) {
                         var $$v = row.id,
                           $$i = _vm._i($$a, $$v)
                         if ($$el.checked) {
-                          $$i < 0 && (_vm.movie_actors = $$a.concat([$$v]))
+                          $$i < 0 && (_vm.employee_skills = $$a.concat([$$v]))
                         } else {
                           $$i > -1 &&
-                            (_vm.movie_actors = $$a
+                            (_vm.employee_skills = $$a
                               .slice(0, $$i)
                               .concat($$a.slice($$i + 1)))
                         }
                       } else {
-                        _vm.movie_actors = $$c
+                        _vm.employee_skills = $$c
                       }
                     }
                   }
@@ -23002,7 +23003,7 @@ var render = function() {
                     staticClass: "button is-danger",
                     on: {
                       click: function($event) {
-                        return _vm.deleteActor(row.id)
+                        return _vm.deleteSkill(row.id)
                       }
                     }
                   },

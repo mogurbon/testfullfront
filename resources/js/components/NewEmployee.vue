@@ -92,7 +92,7 @@
 
                 me.employee.coordinates = `${lat}, ${lon}`
                 me.employee.address = address;
-                console.log(me.employee.address);
+
             });
 
 

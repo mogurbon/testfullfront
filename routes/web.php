@@ -16,6 +16,7 @@ Route::get('/newemployee', 'EmployeeController@newEmployee');
 Route::post('/employee', 'EmployeeController@store');
 Route::get('/employees/{id}', 'EmployeeController@editEmployee');
 Route::get('/employee/{id}', 'EmployeeController@getEmployee');
+Route::put('/employee/{id}', 'EmployeeController@updateEmployee');
 
 
 
@@ -26,6 +27,8 @@ Route::get('/newskill', 'SkillController@newSkill');
 Route::post('/skill', 'SkillController@store');
 Route::get('/skills/{id}', 'SkillController@editSkill');
 Route::get('/skill/{id}', 'SkillController@getSkill');
+Route::put('/skill/{id}', 'SkillController@updateSkill');
+Route::delete('/skill/{id}', 'SkillController@deleteSkill');
 
 /*Route::get('/welcome', function () {
     return view('welcome');

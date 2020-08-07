@@ -21,7 +21,8 @@
 
                 <label class="label">Direccion</label>
                 <div class="control">
-                    <input  class="input" type="text"  placeholder="Text input" v-model="employee.address">
+                    <!--<input  class="input" type="text"  placeholder="Text input" v-model="employee.address">-->
+                    <input ref="googleAutocomplete"  type="text" placeholder="Ingresa el nombre de tu calle y número.." v-model="employee.address">
                 </div>
 
                 <label class="label">Fecha de Nacimiento</label>
@@ -50,10 +51,10 @@
                 </thead>
 
                 <tbody>
-                <tr v-for="row in list_actors">
-                    <td>{{row.name}}</td>
+                <tr v-for="row in list_skills">
+                    <td>{{row.skill}}</td>
 
-                    <td><input type="checkbox" :value="row.id" v-model="movie_actors"></td>
+                    <td><input type="checkbox" :value="row.id" v-model="employee_skills"></td>
 
 
 
@@ -79,7 +80,7 @@
             return {
                 events: [],
                 list_skills: [],
-                movie_actors: [],
+                employee_skills: [],
                 coordinates:'',
 
                 employee: {
@@ -88,7 +89,8 @@
                     position: '',
                     address: '',
                     birthday: '',
-                    coordinates: ''
+                    coordinates: '',
+                    skills:[]
                 },
 
                 disabledButton: false,
@@ -101,56 +103,61 @@
 
         },
         mounted () {
-           // this.getGenres();
+
             this.getEmployee();
-           // this.getActors()
+            this.getSkills()
+
+            this.autocomplete = new google.maps.places.Autocomplete(
+                (this.$refs.googleAutocomplete),
+                {types: ['geocode']}
+            );
 
 
-            //var MarkerTecho = new window.google.maps.Marker({ map: mapObject, position: userLatLng, title: "Mi Techo!", icon: require("@/assets/img/icons/solar-icon.png") });
+
+
+            this.autocomplete.addListener('place_changed', () => {
+                let place = this.autocomplete.getPlace();
+                let ac = place.address_components;
+                let lat = place.geometry.location.lat();
+                let lon = place.geometry.location.lng();
+                let address = `${ac[1]["short_name"]} ${ac[0]["short_name"]} ${ac[2]["short_name"]} ${ac[3]["short_name"]}`;
+
+                //  console.log(ac);
+
+                me.employee.coordinates = `${lat}, ${lon}`
+                me.employee.address = address;
+
+            });
+
+
+
 
 
         },
         methods:{
-            getGenres()
-            {
 
-                let url = '/genres/';
-                this.axios.get(url)
-                    .then(res => {
-
-                        this.events = []
-                        for (var i = res.data.length - 1; i >= 0; i--) {
-                            let genre = {}
-                            let data = res.data[i]
-                            genre.id = data.id
-                            genre.name = data.name
-
-                            this.events.push(genre)
-                        }
-                    })
-            },
             getSkills()
             {
 
-                let url = '/skills/';
+                let url = '/listskills/';
                 this.axios.get(url)
                     .then(res => {
 
                         this.list_skills = []
                         for (var i = res.data.length - 1; i >= 0; i--) {
-                            let actor = {}
+                            let skill = {}
                             let data = res.data[i]
-                            actor.id = data.id
-                            actor.name = data.name
-                            this.list_skills.push(actor)
+                            skill.id = data.id
+                            skill.skill = data.skill
+                            this.list_skills.push(skill)
                         }
                     })
             },
             save () {
-                this.movie.actors = this.movie_actors;
-                return this.axios.put('/movie/' + this.movie_id, this.movie).then(response => {
+                this.employee.skills = this.employee_skills;
+                return this.axios.put('/employee/' + this.employee_id, this.employee).then(response => {
 
-                    window.location.href = "/";
+                  //  window.location.href = "/";
                 })
             },
             getEmployee(){
@@ -168,12 +175,12 @@
 
                        // console.log( this.coordinates )
                         //console.log(this.employee.coordinates)
-                       /* for (var propiedad in val.actors) {
-                            if (val.actors.hasOwnProperty(propiedad)) {
-                                actor_ids.push(val.actors[propiedad].id);
+                        for (var propiedad in val.skills) {
+                            if (val.skills.hasOwnProperty(propiedad)) {
+                                skills_ids.push(val.skills[propiedad].id);
                             }
                         }
-                        this.movie_actors = actor_ids;*/
+                        this.employee_skills = skills_ids;
 
 
                         var lat = '19.3665953';
