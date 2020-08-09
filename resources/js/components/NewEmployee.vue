@@ -3,36 +3,59 @@
         <div class="column"></div>
         <div class="column">
 
-
+            <ValidationObserver v-slot="{ invalid, reset }">
             <div class="field">
                 <label class="label">Nombre</label>
-                <div class="control">
-                    <input class="input" type="text" placeholder="Text input" v-model="employee.name">
-                </div>
+                <ValidationProvider name="Nombre" :rules="{required: true, max: 50}" v-slot="v">
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Text input" v-model="employee.name">
+                    </div>
+                    <span>{{ v.errors[0] }}</span>
+                </ValidationProvider>
+
                 <label class="label">Email</label>
-                <div class="control">
-                    <input  class="input"  placeholder="Text input" v-model="employee.email">
-                </div>
+                <ValidationProvider name="Email" :rules="{ required: true, email: true }" v-slot="{ errors }">
+                    <div class="control">
+                        <input  class="input"  placeholder="Text input" v-model="employee.email">
+                    </div>
+                    <span>{{ errors[0] }}</span>
+                </ValidationProvider>
+
                 <label class="label">Puesto</label>
-                <input  class="input" type="tel"  placeholder="Text input" v-model="employee.position">
+                <ValidationProvider name="Puesto" :rules="{required: true, max: 50}" v-slot="v">
+                    <div class="control">
+                        <input  class="input" type="tel"  placeholder="Text input" v-model="employee.position">
+                    </div>
+                    <span>{{ v.errors[0] }}</span>
+                </ValidationProvider>
+
 
                 <label class="label">Fecha de nacimiento</label>
-                <input type="date" id="start" name="trip-start" v-model="employee.birthday">
-
+                <ValidationProvider name="Fecha de nacimiento" :rules="{required: true, max: 50}" v-slot="v">
+                <div class="control">
+                    <input type="date" id="start" name="trip-start" v-model="employee.birthday">
+                </div>
+                    <span>{{ v.errors[0] }}</span>
+                </ValidationProvider>
 
                 <label class="label">Direccion</label>
-                <input ref="googleAutocomplete"  type="text" placeholder="Ingresa el nombre de tu calle y número.." v-model="employee.address">
 
+                <ValidationProvider name="Direccion" :rules="{required: true, max: 50}" v-slot="v">
+                <div class="control">
+                    <input ref="googleAutocomplete"  type="text" placeholder="Ingresa el nombre de tu calle y número.." v-model="employee.address">
+                </div>
+                    <span>{{ v.errors[0] }}</span>
+                </ValidationProvider>
 
 
             </div>
-            <button class="button pull-right is-success m-t-20" @click="save" :disabled="disabledButton">
+            <button class="button pull-right is-success m-t-20" @click="save" :disabled="invalid" >
 				<span class="icon">
 			      <i class="fa fa-save"></i>
 			    </span>
                 <span>Guardar</span>
             </button>
-
+            </ValidationObserver>
         </div>
         <div class="column">
 
@@ -45,6 +68,11 @@
 <script>
 
     import { PlaceInput, Map } from 'vue-google-maps'
+    import { ValidationObserver, ValidationProvider, extend } from 'vee-validate';
+    import * as rules from 'vee-validate/dist/rules';
+    Object.keys(rules).forEach(rule => {
+        extend(rule, rules[rule]);
+    });
 
     export default {
 
@@ -110,7 +138,8 @@
 
         },
         components: {
-            PlaceInput
+            PlaceInput, ValidationProvider,
+            ValidationObserver
         }
 
     }

@@ -27,6 +27,7 @@
     "dependencies": {
         "bulma": "^0.8.0",
         "font-awesome": "^4.7.0",
+        "vee-validate": "^3.3.8",
         "vue-axios": "^2.1.5",
         "vue-google-maps": "^0.1.21"
     }

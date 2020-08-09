@@ -78,10 +78,10 @@ class EmployeeController extends Controller
     }
 
     public function getEmployee($employee_id){
-
-
-
         return Employee::with('skills')->find($employee_id);
-
     }
+    public function deleteEmployee($employee_id){
+        return Employee::destroy($employee_id);
+    }
+
 }

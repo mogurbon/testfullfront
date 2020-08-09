@@ -23,7 +23,7 @@
                     <td>{{row.address}}</td>
                     <td>{{row.birthday}}</td>
                     <td><button class="button is-info" @click="edit(row.id)"><i class="fa fa-pencil-square-o"></i></button></td>
-                    <td><button class="button is-danger" @click="deleteUser(row.id)"><i class="fa fa-trash" ></i></button></td>
+                    <td><button class="button is-danger" @click="deleteEmployee(row.id)"><i class="fa fa-trash" ></i></button></td>
 
 
                 </tr>

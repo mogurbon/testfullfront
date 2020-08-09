@@ -9,10 +9,14 @@
 window.Vue = require('vue');
 import VueAxios from 'vue-axios';
 import axios from 'axios';
+
 Vue.use(VueAxios, axios);
 
+import { localize } from 'vee-validate';
+import es from 'vee-validate/dist/locale/es.json';
 
 
+localize('es', es);
 
 /**
  * The following block of code may be used to automatically register your

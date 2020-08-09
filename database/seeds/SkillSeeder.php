@@ -13,7 +13,7 @@ class SkillSeeder extends Seeder
     {
         DB::table('skills')->insert([
             'skill' => 'laravel',
-            'employee_id' => 1
+
 
         ]);
     }

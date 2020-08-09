@@ -5,6 +5,8 @@ composer install
 
 npm install
 
+php artisan migrate:refresh --seed
+
 
 para verlo se utiliza el servidor integrado de laravel 
 

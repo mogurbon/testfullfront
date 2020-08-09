@@ -68,7 +68,7 @@
             },
             deleteSkill(skill_id){
 
-                let res = confirm("Are you sure to delete skill?")
+                let res = confirm("Seguro de querer borrar skill?")
                 if (res) {
                     this.axios.delete('/skill/'+skill_id).then(response => {
                         this.getSkills();

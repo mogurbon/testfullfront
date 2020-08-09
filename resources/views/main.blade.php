@@ -16,7 +16,7 @@
 
         <nav class="navbar" role="navigation" aria-label="dropdown navigation">
             <div class="navbar-brand">
-                <a class="navbar-item" href="">
+                <a class="navbar-item" href="/">
                     <img src="https://nulldata.com/img/nulldata.svg"  width="112" height="28">
                 </a>
                 <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
@@ -50,9 +50,9 @@
                             <a class="navbar-item" href="{{url("/newskill")}}">
                                 Nuevo
                             </a>
-                            <a class="navbar-item" href="{{url("/skills")}}">
+                           {{-- <a class="navbar-item" href="{{url("/skills")}}">
                                 Consultar
-                            </a>
+                            </a>--}}
 
                         </div>
 
